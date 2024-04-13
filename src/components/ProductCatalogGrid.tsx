@@ -31,7 +31,7 @@ const ProductCatalogGrid = () => {
       <ActionRow />
       <CardsContainer>
         {products.map((product) => (
-          <ProductCard product={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </CardsContainer>
     </React.Fragment>

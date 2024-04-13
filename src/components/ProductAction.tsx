@@ -16,9 +16,9 @@ const SortButtonContainer = styled.div`
   ${tw`flex flex-col md:flex-row justify-start items-start md:items-center gap-4 w-full md:w-auto`}
 `;
 
-const SortButton = styled.button<{ isSelected: boolean }>`
+const SortButton = styled.button<{ isselected: boolean }>`
   ${tw`border border-gray-300 rounded px-4 py-2 w-full md:w-auto `}
-  ${({ isSelected }) => isSelected && tw`bg-blue-500 text-white`}
+  ${({ isselected }) => isselected && tw`bg-blue-500 text-white`}
 `;
 
 const ProductsTitles = styled.div`
@@ -54,13 +54,13 @@ const ActionRow: React.FC = () => {
       <SortButtonContainer>
         <p>sort by price: </p>
         <SortButton
-          isSelected={sortOrder === SortOrder.Ascending}
+          isselected={sortOrder === SortOrder.Ascending}
           onClick={() => handleSort(SortOrder.Ascending)}
         >
           Low to High
         </SortButton>
         <SortButton
-          isSelected={sortOrder === SortOrder.Descending}
+          isselected={sortOrder === SortOrder.Descending}
           onClick={() => handleSort(SortOrder.Descending)}
         >
           High to Low

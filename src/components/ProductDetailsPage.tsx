@@ -1,15 +1,21 @@
 import { productType, useProduct } from "../contexts/ProductContexts";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import NotFoundPage from "./Error";
 import tw, { styled } from "twin.macro";
 import Loader from "./Loader";
-
+import { useEffect } from "react";
 
 const Container = styled.div`
-  ${tw`max-w-3xl mx-auto p-8 mb-0 min-h-screen`}`
+  ${tw`max-w-3xl mx-auto p-8 mb-0 min-h-screen`}
+`;
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const { getProductById ,isLoading} = useProduct();
+  const { getProductById, isLoading } = useProduct();
+
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const product = getProductById(Number(id)) || {};
   if (!product) {
@@ -18,7 +24,6 @@ const ProductDetailPage = () => {
   const { title, price, description, category, image, rating } =
     (product as productType) || {};
 
-  
   if (isLoading) {
     return <Loader />;
   }
@@ -31,10 +36,10 @@ const ProductDetailPage = () => {
       <p tw="text-gray-600 mb-2">Price: ${price}</p>
       <p tw="text-gray-600 mb-2">Category: {category}</p>
 
-      <p tw="text-gray-600 mb-2">
+      <div tw="text-gray-600 mb-2">
         <RatingStar rate={rating?.rate} reviews={rating?.count} />
         {/* Rating: {rating?.rate} ({rating?.count} reviews) */}
-      </p>
+      </div>
       <p tw="text-gray-700">{description}</p>
 
       <div tw="mt-4">
