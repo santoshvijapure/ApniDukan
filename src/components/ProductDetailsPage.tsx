@@ -2,13 +2,14 @@ import { productType, useProduct } from "../contexts/ProductContexts";
 import { Link, useParams } from "react-router-dom";
 import NotFoundPage from "./Error";
 import tw, { styled } from "twin.macro";
+import Loader from "./Loader";
 
 
 const Container = styled.div`
   ${tw`max-w-3xl mx-auto p-8 mb-0 min-h-screen`}`
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const { getProductById } = useProduct();
+  const { getProductById ,isLoading} = useProduct();
 
   const product = getProductById(Number(id)) || {};
   if (!product) {
@@ -17,6 +18,10 @@ const ProductDetailPage = () => {
   const { title, price, description, category, image, rating } =
     (product as productType) || {};
 
+  
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <Container>
       <div tw="flex justify-center items-center mb-4">
