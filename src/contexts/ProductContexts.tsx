@@ -14,11 +14,20 @@ export type productType = {
   };
 };
 
+export enum SortOrder {
+  Ascending = "ascending",
+  Descending = "descending",
+  Original = "original",
+}
+
 interface ProductContextType {
   data: productType[];
   isLoading: boolean;
   error: string | null;
   refetch: () => void;
+  searchProducts: (query: string) => void;
+  sortByPrice: (order: SortOrder) => void;
+  searchQuery: string;
 }
 interface ProviderType {
   children: React.ReactNode;
@@ -28,8 +37,10 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export const ProductProvider: React.FC<ProviderType> = ({ children }) => {
   const [data, setData] = useState<productType[]>([]);
+  const [filteredData, setFilteredData] = useState<productType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -40,6 +51,7 @@ export const ProductProvider: React.FC<ProviderType> = ({ children }) => {
       }
       const responseData = await response.json();
       setData(responseData);
+      setFilteredData(responseData);
     } catch (error: any) {
       setError(error);
     } finally {
@@ -52,21 +64,44 @@ export const ProductProvider: React.FC<ProviderType> = ({ children }) => {
     console.log("data fetch complete!!!");
   }, []);
 
+  const searchProducts = (query: string) => {
+    setSearchQuery(query);
+    const filteredProducts = data.filter((product) =>
+      product.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredData(filteredProducts);
+  };
+
+  const sortByPrice = (order: SortOrder) => {
+    let sortedProducts: productType[] = [];
+
+    if (order === SortOrder.Ascending) {
+      sortedProducts = [...filteredData].sort((a, b) => a.price - b.price);
+    } else if (order === SortOrder.Descending) {
+      sortedProducts = [...filteredData].sort((a, b) => b.price - a.price);
+    } else {
+      sortedProducts = [...data];
+    }
+
+    setFilteredData(sortedProducts);
+  };
+
   return (
     <ProductContext.Provider
       value={{
-        data,
+        data: filteredData,
         isLoading,
         error,
         refetch: fetchData,
+        searchProducts,
+        sortByPrice,
+        searchQuery,
       }}
     >
       {children}
     </ProductContext.Provider>
   );
 };
-
-
 
 export const useProduct = (): ProductContextType => {
   const context = useContext(ProductContext);

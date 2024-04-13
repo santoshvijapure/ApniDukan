@@ -4,6 +4,7 @@ import ProductCatalogGrid from "./components/ProductCatalogGrid";
 import Navbar from "./components/Navbar";
 import tw, { styled } from "twin.macro";
 import Footer from "./components/Footer";
+import ActionRow from "./components/ProductAction";
 
 const BannerImage = styled.img`
   ${tw`w-full`}
@@ -17,6 +18,7 @@ function App() {
 
       <Navbar />
       <BannerImage src="shop.jpg"/>
+      <ActionRow/>
       <ProductCatalogGrid />
       <Footer/>
     </React.Fragment>
