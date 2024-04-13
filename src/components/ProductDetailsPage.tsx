@@ -1,7 +1,6 @@
 import { productType, useProduct } from "../contexts/ProductContexts";
 import { Link, useParams } from "react-router-dom";
 import NotFoundPage from "./Error";
-import tw from "twin.macro";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
