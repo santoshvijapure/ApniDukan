@@ -1,7 +1,11 @@
 import { productType, useProduct } from "../contexts/ProductContexts";
 import { Link, useParams } from "react-router-dom";
 import NotFoundPage from "./Error";
+import tw, { styled } from "twin.macro";
 
+
+const Container = styled.div`
+  ${tw`max-w-3xl mx-auto p-8 mb-0 min-h-screen`}`
 const ProductDetailPage = () => {
   const { id } = useParams();
   const { getProductById } = useProduct();
@@ -14,7 +18,7 @@ const ProductDetailPage = () => {
     (product as productType) || {};
 
   return (
-    <div tw="max-w-3xl mx-auto p-8 mb-0 min-h-screen">
+    <Container>
       <div tw="flex justify-center items-center mb-4">
         <img src={image} alt={title} tw="w-64 h-auto" />
       </div>
@@ -33,7 +37,7 @@ const ProductDetailPage = () => {
           Go back to home
         </Link>
       </div>
-    </div>
+    </Container>
   );
 };
 
