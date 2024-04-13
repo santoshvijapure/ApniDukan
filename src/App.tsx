@@ -24,6 +24,10 @@ const router = createBrowserRouter([
     path: "product/:id",
     element: <ProductDetailPage />,
   },
+  {
+    path: "*",
+    element: <NotFoundPage />,
+  },
 ]);
 
 function App() {
