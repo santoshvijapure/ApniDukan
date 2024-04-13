@@ -8,6 +8,7 @@ import ActionRow from "./components/ProductAction";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import NotFoundPage from "./components/Error";
+import ProductDetailPage from "./components/ProductDetailsPage";
 
 const BannerImage = styled.img`
   ${tw`w-full`}
@@ -28,8 +29,8 @@ const router = createBrowserRouter([
     errorElement: <NotFoundPage />,
   },
   {
-    path: "/error",
-    element: <NotFoundPage />,
+    path: "product/:id",
+    element: <ProductDetailPage />,
   },
 ]);
 

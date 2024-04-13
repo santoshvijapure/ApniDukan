@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { productType } from "../types/types";
 import tw from "twin.macro";
+import { useNavigate } from 'react-router-dom';
 
 const CardContainer = styled.div`
   ${tw`md:w-72  overflow-hidden transition-transform duration-300  hover:scale-105 p-4`}
@@ -43,7 +44,12 @@ type Component = {
   product: productType;
 };
 const ProductCard = ({ product }: Component) => {
-  const { image, price, title } = product || {};
+  const { image, price, title, id } = product || {};
+    let navigate = useNavigate();
+
+  const handleNavigation=()=>{
+    navigate("/product/"+id)
+  }
   return (
     <CardContainer>
       <CardImage src={image} alt={title} />
@@ -52,7 +58,9 @@ const ProductCard = ({ product }: Component) => {
 
         <ActionBar>
           <CardPrice>${price}</CardPrice>
-          <SeeMoreButton>See More</SeeMoreButton>
+          <SeeMoreButton
+          onClick={handleNavigation}
+          >See More</SeeMoreButton>
         </ActionBar>
       </CardContent>
     </CardContainer>

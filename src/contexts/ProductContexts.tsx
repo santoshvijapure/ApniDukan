@@ -28,6 +28,8 @@ interface ProductContextType {
   searchProducts: (query: string) => void;
   sortByPrice: (order: SortOrder) => void;
   searchQuery: string;
+    getProductById: (id: number) => productType | undefined;
+
 }
 interface ProviderType {
   children: React.ReactNode;
@@ -85,7 +87,9 @@ export const ProductProvider: React.FC<ProviderType> = ({ children }) => {
 
     setFilteredData(sortedProducts);
   };
-
+  const getProductById = (id: number) => {
+    return data.find(product => (product.id) === id);
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -96,6 +100,7 @@ export const ProductProvider: React.FC<ProviderType> = ({ children }) => {
         searchProducts,
         sortByPrice,
         searchQuery,
+        getProductById
       }}
     >
       {children}
@@ -110,3 +115,4 @@ export const useProduct = (): ProductContextType => {
   }
   return context;
 };
+
