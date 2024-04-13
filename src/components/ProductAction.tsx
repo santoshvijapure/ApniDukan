@@ -3,7 +3,7 @@ import tw, { styled } from "twin.macro";
 import { SortOrder, useProduct } from "../contexts/ProductContexts";
 
 const ActionRowContainer = styled.div`
-  ${tw`flex flex-col md:flex-row justify-center items-center mt-4 p-4 gap-8 mx-auto`}
+  ${tw`flex flex-col md:flex-row justify-center items-start md:items-center mt-4 p-4 gap-8 mx-auto`}
   max-width: 1200px;
   
 `;
@@ -13,7 +13,7 @@ const SearchInput = styled.input`
 `;
 
 const SortButtonContainer = styled.div`
-  ${tw`flex flex-col md:flex-row justify-start items-center gap-4 w-full md:w-auto`}
+  ${tw`flex flex-col md:flex-row justify-start items-start md:items-center gap-4 w-full md:w-auto`}
 `;
 
 const SortButton = styled.button<{ isSelected: boolean }>`
