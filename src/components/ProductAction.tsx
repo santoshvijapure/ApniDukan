@@ -3,29 +3,25 @@ import tw, { styled } from "twin.macro";
 import { SortOrder, useProduct } from "../contexts/ProductContexts";
 
 const ActionRowContainer = styled.div`
-  ${tw`flex flex-col md:flex-row justify-between items-start md:items-center mt-4 p-4 gap-8 mx-auto`}
-  max-width: 1200px;
+  ${tw`flex flex-col items-center mt-4 p-4 gap-4 mx-auto`}
+  max-width: 90%;
 `;
 
 const SearchInput = styled.input`
-  ${tw` w-full md:w-auto border border-gray-300 rounded px-4 py-2 mb-2 md:mb-0 md:mr-4`}
+  ${tw`w-full border border-gray-300 rounded px-4 py-2 mb-2`}
 `;
 
 const SortButtonContainer = styled.div`
-  ${tw`flex flex-col md:flex-row justify-start items-start md:items-center gap-4 w-full md:w-auto`}
+  ${tw`flex flex-row items-center gap-4 w-full`}
 `;
 
 const SortButton = styled.button<{ isselected: boolean }>`
-  ${tw`border border-gray-300 rounded px-4 py-2 w-full md:w-auto `}
+  ${tw`border border-gray-300 rounded px-4 py-2`}
   ${({ isselected }) => isselected && tw`bg-blue-500 text-white`}
 `;
 
-// const ProductsTitles = styled.div`
-//   ${tw`flex flex-col md:flex-row justify-start items-center gap-4 flex-grow cursor-pointer font-semibold`}
-// `;
-
 const CategoriesRowContainer = styled.div`
-  ${tw`flex flex-col md:flex-row justify-center items-center gap-4 flex-grow cursor-pointer font-semibold`}
+  ${tw`flex flex-row items-center gap-4 w-full`}
 `;
 
 const ActionRow: React.FC = () => {
@@ -57,8 +53,27 @@ const ActionRow: React.FC = () => {
 
   return (
     <ActionRowContainer>
+      <SearchInput
+        type="text"
+        placeholder="Search products..."
+        value={searchQuery}
+        onChange={handleSearch}
+      />
+      <SortButtonContainer>
+        <SortButton
+          isselected={sortOrder === SortOrder.Ascending}
+          onClick={() => handleSort(SortOrder.Ascending)}
+        >
+          $ Low to High
+        </SortButton>
+        <SortButton
+          isselected={sortOrder === SortOrder.Descending}
+          onClick={() => handleSort(SortOrder.Descending)}
+        >
+          $ High to Low
+        </SortButton>
+      </SortButtonContainer>
       <CategoriesRowContainer>
-        <p>by Category: </p>
         <select onChange={handleCategoryChange} defaultValue="">
           <option value="" disabled hidden>
             Select Category
@@ -71,27 +86,6 @@ const ActionRow: React.FC = () => {
           ))}
         </select>
       </CategoriesRowContainer>
-      <SortButtonContainer>
-        <p>by Price: </p>
-        <SortButton
-          isselected={sortOrder === SortOrder.Ascending}
-          onClick={() => handleSort(SortOrder.Ascending)}
-        >
-          Low to High
-        </SortButton>
-        <SortButton
-          isselected={sortOrder === SortOrder.Descending}
-          onClick={() => handleSort(SortOrder.Descending)}
-        >
-          High to Low
-        </SortButton>
-        <SearchInput
-          type="text"
-          placeholder="Search products..."
-          value={searchQuery}
-          onChange={handleSearch}
-        />
-      </SortButtonContainer>
     </ActionRowContainer>
   );
 };

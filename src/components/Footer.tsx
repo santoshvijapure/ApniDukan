@@ -22,7 +22,7 @@ const Footer = () => {
       <FooterLinks>
         <FooterLink href="#">About Us</FooterLink>
         <FooterLink href="#">FAQ</FooterLink>
-        <FooterLink href="#">Career</FooterLink>
+        <FooterLink href="#">Blogs</FooterLink>
       </FooterLinks>
       <CopyrightText>&copy; 2024 Apni Dukan. All rights reserved.</CopyrightText>
     </FooterContainer>
