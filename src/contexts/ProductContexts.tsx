@@ -22,14 +22,15 @@ export enum SortOrder {
 
 interface ProductContextType {
   data: productType[];
+  categories: string[];
   isLoading: boolean;
   error: string | null;
   refetch: () => void;
   searchProducts: (query: string) => void;
   sortByPrice: (order: SortOrder) => void;
+  filterByCategory: (category: string) => void;
   searchQuery: string;
-    getProductById: (id: number) => productType | undefined;
-
+  getProductById: (id: number) => productType | undefined;
 }
 interface ProviderType {
   children: React.ReactNode;
@@ -40,6 +41,7 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 export const ProductProvider: React.FC<ProviderType> = ({ children }) => {
   const [data, setData] = useState<productType[]>([]);
   const [filteredData, setFilteredData] = useState<productType[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -54,11 +56,20 @@ export const ProductProvider: React.FC<ProviderType> = ({ children }) => {
       const responseData = await response.json();
       setData(responseData);
       setFilteredData(responseData);
+      extractCategories(responseData);
     } catch (error: any) {
       setError(error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const extractCategories = (data: productType[]) => {
+    const uniqueCategories = Array.from(
+      new Set(data.map((product) => product.category))
+    );
+    // console.log({uniqueCategories})
+    setCategories(uniqueCategories);
   };
 
   useEffect(() => {
@@ -87,20 +98,34 @@ export const ProductProvider: React.FC<ProviderType> = ({ children }) => {
 
     setFilteredData(sortedProducts);
   };
-  const getProductById = (id: number) => {
-    return data.find(product => (product.id) === id);
+
+  const filterByCategory = (category: string) => {
+    if (category === "all") {
+      setFilteredData(data);
+    }
+    const filteredProducts = data.filter(
+      (product) => category === "all"? true : product.category === category
+    );
+    setFilteredData(filteredProducts);
   };
+
+  const getProductById = (id: number) => {
+    return data.find((product) => product.id === id);
+  };
+
   return (
     <ProductContext.Provider
       value={{
         data: filteredData,
+        categories,
         isLoading,
         error,
         refetch: fetchData,
         searchProducts,
         sortByPrice,
+        filterByCategory,
         searchQuery,
-        getProductById
+        getProductById,
       }}
     >
       {children}
@@ -115,4 +140,3 @@ export const useProduct = (): ProductContextType => {
   }
   return context;
 };
-

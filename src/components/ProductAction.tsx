@@ -3,9 +3,8 @@ import tw, { styled } from "twin.macro";
 import { SortOrder, useProduct } from "../contexts/ProductContexts";
 
 const ActionRowContainer = styled.div`
-  ${tw`flex flex-col md:flex-row justify-center items-start md:items-center mt-4 p-4 gap-8 mx-auto`}
+  ${tw`flex flex-col md:flex-row justify-between items-start md:items-center mt-4 p-4 gap-8 mx-auto`}
   max-width: 1200px;
-  
 `;
 
 const SearchInput = styled.input`
@@ -23,10 +22,15 @@ const SortButton = styled.button<{ isselected: boolean }>`
 
 const ProductsTitles = styled.div`
   ${tw`flex flex-col md:flex-row justify-start items-center gap-4 flex-grow cursor-pointer font-semibold`}
-  `
+`;
+
+const CategoriesRowContainer = styled.div`
+  ${tw`flex flex-col md:flex-row justify-center items-center gap-4 flex-grow cursor-pointer font-semibold`}
+`;
 
 const ActionRow: React.FC = () => {
-  const { searchProducts, sortByPrice } = useProduct();
+  const { searchProducts, sortByPrice, categories, filterByCategory } =
+    useProduct();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<SortOrder | null>(null);
 
@@ -35,7 +39,6 @@ const ActionRow: React.FC = () => {
     setSearchQuery(query);
     searchProducts(query);
   };
-
 
   const handleSort = (order: SortOrder) => {
     if (order === sortOrder) {
@@ -47,12 +50,29 @@ const ActionRow: React.FC = () => {
     }
   };
 
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCategory = e.target.value;
+    filterByCategory(selectedCategory);
+  };
+
   return (
     <ActionRowContainer>
-      <ProductsTitles>Products \</ProductsTitles>
-
+      <CategoriesRowContainer>
+        <p>by Category: </p>
+        <select onChange={handleCategoryChange} defaultValue="">
+          <option value="" disabled hidden>
+            Select Category
+          </option>
+          <option value="all">All</option>
+          {categories.map((category, index) => (
+            <option key={index} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </CategoriesRowContainer>
       <SortButtonContainer>
-        <p>sort by price: </p>
+        <p>by Price: </p>
         <SortButton
           isselected={sortOrder === SortOrder.Ascending}
           onClick={() => handleSort(SortOrder.Ascending)}

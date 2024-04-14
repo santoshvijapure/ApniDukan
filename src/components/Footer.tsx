@@ -24,7 +24,7 @@ const Footer = () => {
         <FooterLink href="#">FAQ</FooterLink>
         <FooterLink href="#">Career</FooterLink>
       </FooterLinks>
-      <CopyrightText>&copy; 2024 Your Company Name. All rights reserved.</CopyrightText>
+      <CopyrightText>&copy; 2024 Apni Dukan. All rights reserved.</CopyrightText>
     </FooterContainer>
   );
 };
