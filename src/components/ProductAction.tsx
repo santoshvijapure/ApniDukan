@@ -20,9 +20,9 @@ const SortButton = styled.button<{ isselected: boolean }>`
   ${({ isselected }) => isselected && tw`bg-blue-500 text-white`}
 `;
 
-const ProductsTitles = styled.div`
-  ${tw`flex flex-col md:flex-row justify-start items-center gap-4 flex-grow cursor-pointer font-semibold`}
-`;
+// const ProductsTitles = styled.div`
+//   ${tw`flex flex-col md:flex-row justify-start items-center gap-4 flex-grow cursor-pointer font-semibold`}
+// `;
 
 const CategoriesRowContainer = styled.div`
   ${tw`flex flex-col md:flex-row justify-center items-center gap-4 flex-grow cursor-pointer font-semibold`}
